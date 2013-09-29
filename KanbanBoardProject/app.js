@@ -5,7 +5,6 @@
 
 var express = require('express')
   , controllers = require('./controllers')
-  , user = require('./controllers/user')
   , http = require('http')
   , path = require('path');
 
