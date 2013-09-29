@@ -27,17 +27,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-//app.all("*", function(request, response, next) {
-//	response.writeHead(200, {
-//		"Content-Type" : "text/plain"
-//	});
-//	require('./router').get(request, response, express);
-//	next();
-//});
-
 app.get('/', controllers.index);
-app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log("KanbanBoard server listening on port " + app.get('port'));
 });
