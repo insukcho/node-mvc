@@ -1,7 +1,5 @@
 var initialTasks = require('../models/initial-tasks');
 
-var todoTasks = initialTasks.getTasks().todo;
-
 exports.index = function(req, res) {
 	res.render('index', {
 		title : 'My Kanban Board',
