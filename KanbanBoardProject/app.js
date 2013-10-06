@@ -1,11 +1,9 @@
-/**
- * Module dependencies.
- */
+// module dependency
+var express = require('express'), 
+	http = require('http'),
+	path = require('path');
 
-var express = require('express'), controllers = require('./controllers'), http = require('http'), path = require('path'), db = require('./models/db.js');
-
-db.connect();
-
+// express setting
 var app = express();
 
 app.configure(function() {
@@ -20,18 +18,18 @@ app.configure(function() {
 	app.use(express.static(path.join(__dirname, 'public')));
 });
 
+// only for development mode
 app.configure('development', function() {
 	app.use(express.errorHandler());
 });
 
-// app.get('/', controllers.index);
+// routing setting
+require('./router.js').route(app);
 
-var task = require('./controllers/task-controller.js');
-app.get('/', task.list);
-app.post('/createTask', task.create);
-app.post('/updateTask', task.update);
-app.post('/removeTask', task.remove);
+//create connection pool for MongoDB, just do it once when sever has created.
+require('./db.js').connect();
 
+// create http server
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("KanbanBoard server listening on port " + app.get('port'));
 });

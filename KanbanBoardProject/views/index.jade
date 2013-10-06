@@ -21,9 +21,7 @@ block content
 							div.input-group-btn
 								form(action='/updateTask', method='post')
 									input(type='hidden' name='status' value='In-Progress')
-									button(type='submit' class='btn btn-info btn-xs' name='contents' value= val) U
-								form(action='/removeTask', method='post')
-									button(type='submit' class='btn btn-danger btn-xs' name='contents' value= val) D
+									button(type='submit' class='btn btn-info' name='contents' value= val) <strong>></strong>
 			div.col-lg-4
 				ul.list-group
 					li.list-group-item.active In-Progress
@@ -34,9 +32,7 @@ block content
 							div.input-group-btn
 								form(action='/updateTask', method='post')
 									input(type='hidden' name='status' value='Done')
-									button(type='submit' class='btn btn-info btn-xs' name='contents' value= val) U
-								form(action='/removeTask', method='post')
-									button(type='submit' class='btn btn-danger btn-xs' name='contents' value= val) D
+									button(type='submit' class='btn btn-info' name='contents' value= val) <strong>></strong>
 			div.col-lg-4
 				ul.list-group
 					li.list-group-item.active Done
