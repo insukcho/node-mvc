@@ -1,12 +1,10 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-  , controllers = require('./controllers')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'), controllers = require('./controllers'), http = require('http'), path = require('path'), db = require('./models/db.js');
+
+db.connect();
 
 var app = express();
 
@@ -22,12 +20,18 @@ app.configure(function() {
 	app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
+app.configure('development', function() {
+	app.use(express.errorHandler());
 });
 
-app.get('/', controllers.index);
+// app.get('/', controllers.index);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("KanbanBoard server listening on port " + app.get('port'));
+var task = require('./controllers/task-controller.js');
+app.get('/', task.list);
+app.post('/createTask', task.create);
+app.post('/updateTask', task.update);
+app.post('/removeTask', task.remove);
+
+http.createServer(app).listen(app.get('port'), function() {
+	console.log("KanbanBoard server listening on port " + app.get('port'));
 });

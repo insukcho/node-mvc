@@ -7,22 +7,43 @@ block content
 			p Welcome!! This is my Kanban Board which let me do my job better!!
 			p If you want to create new task, just push this button!!
 			div.form-group
-				input(type='text' class='form-control')
-				button(type='submit' class='btn btn-success') Add Task
-				
+				form(action='/createTask', method='post')
+					input(type='text' name='contents' class='form-control')
+					button(type='submit' class='btn btn-success') Add Task
 		div.row
 			div.col-lg-4
-				h2 TO-DO
 				ul.list-group
+					li.list-group-item.active TO-DO
+						span.badge= todoTasks.length
 					each val in todoTasks
-						li.list-group-item= val
+						div.input-group
+							li.list-group-item= val
+							div.input-group-btn
+								form(action='/updateTask', method='post')
+									input(type='hidden' name='status' value='In-Progress')
+									button(type='submit' class='btn btn-info btn-xs' name='contents' value= val) U
+								form(action='/removeTask', method='post')
+									button(type='submit' class='btn btn-danger btn-xs' name='contents' value= val) D
 			div.col-lg-4
-				h2 In-Progress
 				ul.list-group
+					li.list-group-item.active In-Progress
+						span.badge= inProgressTasks.length
 					each val in inProgressTasks
-						li.list-group-item= val
+						div.input-group
+							li.list-group-item= val
+							div.input-group-btn
+								form(action='/updateTask', method='post')
+									input(type='hidden' name='status' value='Done')
+									button(type='submit' class='btn btn-info btn-xs' name='contents' value= val) U
+								form(action='/removeTask', method='post')
+									button(type='submit' class='btn btn-danger btn-xs' name='contents' value= val) D
 			div.col-lg-4
-				h2 Done
 				ul.list-group
+					li.list-group-item.active Done
+						span.badge= doneTasks.length
 					each val in doneTasks
-						li.list-group-item= val
+						div.input-group
+							li.list-group-item= val
+							div.input-group-btn
+								form(action='/removeTask', method='post')
+									button(type='submit' class='btn btn-danger' name='contents' value= val) D
