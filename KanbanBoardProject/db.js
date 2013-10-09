@@ -1,34 +1,35 @@
-// Bring Mongoose into the app
+// binding mongoose module
 var mongoose = require('mongoose');
 
-// Build the connection string
+// connection uri
 var dbURI = 'mongodb://localhost/test';
 
+// exports connect function to app.js
 exports.connect = function(){
 	
-	// Create the database connection
+	// get the database connection pool
 	mongoose.connect(dbURI);
 	
-	// CONNECTION EVENTS
-	// When successfully connected
+	// DB Connection Events
+	// Succeed to connect database
 	mongoose.connection.on('connected', function() {
-		console.log('Mongoose default connection open to ' + dbURI);
+		console.log('Succeed to get connection pool in mongoose,  dbURI is ' + dbURI);
 	});
 	
-	// If the connection throws an error
+	// Failed to connect database
 	mongoose.connection.on('error', function(err) {
-		console.log('Mongoose default connection error: ' + err);
+		console.log('Failed to get connection in mongoose, err is ' + err);
 	});
 	
-	// When the connection is disconnected
+	// When the connection has disconnected
 	mongoose.connection.on('disconnected', function() {
-		console.log('Mongoose default connection disconnected');
+		console.log('Database connection has disconnected.');
 	});
 	
-	//If the Node process ends, close the Mongoose connection
+	//If the Node.js process is going down, close database connection pool
 	process.on('SIGINT', function() {
 		mongoose.connection.close(function () {
-			console.log('Mongoose default connection disconnected through app termination');
+			console.log('Application process is going down, disconnect database connection...');
 			process.exit(0);
 		});
 	});

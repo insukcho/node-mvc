@@ -1,7 +1,10 @@
+// binding task model
 var Task = require('../models/task.js');
 
+// define list() to get all tasks and display
 exports.list = function(req, res) {
 
+	// find tasks
 	Task.find(function(err, tasks) {
 
 		console.log('Succeed to get all tasks  {' + tasks + '}');
@@ -10,6 +13,7 @@ exports.list = function(req, res) {
 		var inProgressTasks = [];
 		var doneTasks = [];
 
+		// make task list for each status
 		for ( var key in tasks) {
 			var task = tasks[key];
 			if (task.get('status') === 'TO-DO') {
@@ -23,6 +27,7 @@ exports.list = function(req, res) {
 			}
 		}
 
+		// rendering to main page with each task list
 		res.render('index', {
 			title : 'My Kanban Board',
 			todoTasks : todoTasks,
@@ -40,11 +45,13 @@ exports.create = function(req, res) {
 		
 		var newTask = true;
 		
+		// check same task is exist
 		if(tasks.length > 0){
 			console.error('There are same contents already, skip to create this task. Contents : ' + req.body.contents);
 			newTask = false;
 		}
 		
+		// if this task is new, save it!!
 		if(newTask){
 			new Task({
 				contents : req.body.contents,
@@ -55,14 +62,14 @@ exports.create = function(req, res) {
 		}
 	});
 	
+	// display all tasks
 	res.redirect('/');
 	res.end();
 };
 
 exports.remove = function(req, res) {
 	
-	var contents= req.body.contents;
-
+	// remove tasks
 	Task.remove({
 		contents : req.body.contents
 	}, function(err) {
@@ -70,12 +77,14 @@ exports.remove = function(req, res) {
 			throw err;
 		console.log('Succeed to remove task. contents is {' + req.body.contents	+ '}');
 	});
-
+	
+	// display all tasks
 	res.redirect('/');
 	res.end();
 };
 
 exports.update = function(req, res) {
+	// update tasks with new status
 	Task.update({
 		contents : req.body.contents
 	}, {
@@ -84,9 +93,10 @@ exports.update = function(req, res) {
 		if (err)
 			throw err;
 		console.log('The number of updated documents was %d', numberAffected);
-		console.log('The raw response from Mongo was ', raw);
+		console.log('The raw response from MongoDB was ', raw);
 	});
 
+	// display all tasks
 	res.redirect('/');
 	res.end();
 };
